@@ -42,6 +42,274 @@
 <h1>proio<a class="headerlink" href="#proio" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<span class="target" id="module-proio"></span><dl class="class">
+<dt id="proio.Event">
+<em class="property">class </em><code class="descclassname">proio.</code><code class="descname">Event</code><span class="sig-paren">(</span><em>proto_obj=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a single event</p>
+<dl class="method">
+<dt id="proio.Event.add_entries">
+<code class="descname">add_entries</code><span class="sig-paren">(</span><em>tag</em>, <em>*entries</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.add_entries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.add_entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>is like <a class="reference internal" href="#proio.Event.add_entry" title="proio.Event.add_entry"><code class="xref py py-func docutils literal"><span class="pre">add_entry()</span></code></a>, except that it takes any number of entries,
+and returns a list of corresponding IDs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tag</strong> (<em>string</em>) – tag</li>
+<li><strong>*entries</strong> (<em>Message</em>) – entries</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">identifiers for entry</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.add_entry">
+<code class="descname">add_entry</code><span class="sig-paren">(</span><em>tag</em>, <em>entry</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.add_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.add_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes a tag and protobuf message entry and adds it to the Event.  The
+return value is an integer ID number used to reference the added entry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tag</strong> (<em>string</em>) – tag</li>
+<li><strong>entry</strong> (<em>Message</em>) – entry</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">identifier for entry</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.get_entry">
+<code class="descname">get_entry</code><span class="sig-paren">(</span><em>ID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.get_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.get_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes an entry ID and returns the corresponding entry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ID</strong> (<em>int</em>) – identifier for entry</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">entry message object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">google.protobuf.message.Message</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.tag_entry">
+<code class="descname">tag_entry</code><span class="sig-paren">(</span><em>ID</em>, <em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.tag_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.tag_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>adds a tag to an entry identified by ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ID</strong> (<em>int</em>) – identifier for entry</li>
+<li><strong>tag</strong> (<em>string</em>) – tag</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.tagged_entries">
+<code class="descname">tagged_entries</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.tagged_entries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.tagged_entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes a tag string and returns a list of entry IDs that the tag
+references.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<em>string</em>) – tag</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">identifiers for entries</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.tags">
+<code class="descname">tags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a list of tags that exist in the event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="proio.Reader">
+<em class="property">class </em><code class="descclassname">proio.</code><code class="descname">Reader</code><span class="sig-paren">(</span><em>filename=None</em>, <em>fileobj=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/reader.html#Reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reader for proio files</p>
+<p>This class can be used with the <cite>with</cite> statement, and it also may be used
+as an iterator that sequentially iterates all events.  A filename may be
+omitted in favor of specifying <cite>fileobj</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<em>string</em>) – name of input file to read</li>
+<li><strong>fileobj</strong> – file object to read from</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">proio</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="s1">&#39;input.proio&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="proio.Reader.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/reader.html#Reader.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Reader.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>closes the underlying input file object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Reader.next">
+<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/reader.html#Reader.next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Reader.next" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the next event</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#proio.Event" title="proio.Event">Event</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Reader.seek_to_start">
+<code class="descname">seek_to_start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/reader.html#Reader.seek_to_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Reader.seek_to_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>seeks, if possible, to the start of the input file object.  This can be
+used along with <a class="reference internal" href="#proio.Reader.skip" title="proio.Reader.skip"><code class="xref py py-func docutils literal"><span class="pre">skip()</span></code></a> to directly access events.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Reader.skip">
+<code class="descname">skip</code><span class="sig-paren">(</span><em>n_events</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/reader.html#Reader.skip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Reader.skip" title="Permalink to this definition">¶</a></dt>
+<dd><p>skips the next <cite>n_events</cite> events.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n_events</strong> (<em>int</em>) – number of events to skip</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of events skipped</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="proio.Writer">
+<em class="property">class </em><code class="descclassname">proio.</code><code class="descname">Writer</code><span class="sig-paren">(</span><em>filename=None</em>, <em>fileobj=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/writer.html#Writer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Writer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writer for proio files</p>
+<p>This class can be used with the <cite>with</cite> statement.  A filename may be
+omitted in favor of specifying <cite>fileobj</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<em>string</em>) – name of output file to create or overwrite</li>
+<li><strong>fileobj</strong> – file object to write to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">proio</span><span class="o">.</span><span class="n">Writer</span><span class="p">(</span><span class="s1">&#39;output.proio&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="proio.Writer.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/writer.html#Writer.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Writer.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>closes the file object assigned to the Writer.  This is automatically
+called at the end of a <cite>with</cite> statement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Writer.flush">
+<code class="descname">flush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/writer.html#Writer.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Writer.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>flushes all buffered data to the output file object.  This is
+automatically called at the end of a <cite>with</cite> statement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Writer.push">
+<code class="descname">push</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/writer.html#Writer.push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Writer.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes an event and serializes it into the output bucket.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<a class="reference internal" href="#proio.Event" title="proio.Event"><em>Event</em></a>) – event to serialize to output</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Writer.set_compression">
+<code class="descname">set_compression</code><span class="sig-paren">(</span><em>comp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/writer.html#Writer.set_compression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Writer.set_compression" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets the compression type to use for future output buckets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comp</strong> – can be one of <code class="xref py py-attr docutils literal"><span class="pre">proio.LZ4</span></code>, <code class="xref py py-attr docutils literal"><span class="pre">proio.GZIP</span></code>, or
+<code class="xref py py-attr docutils literal"><span class="pre">proio.UNCOMPRESSED</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
