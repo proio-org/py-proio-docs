@@ -1,0 +1,227 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>proio.writer &#8212; proio 0.3.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for proio.writer</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">lz4.frame</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
+<span class="kn">from</span> <span class="nn">.event</span> <span class="k">import</span> <span class="n">Event</span>
+<span class="kn">import</span> <span class="nn">proio.proto</span> <span class="k">as</span> <span class="nn">proto</span>
+
+<span class="n">magic_bytes</span> <span class="o">=</span> <span class="p">[</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xe1</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xc1</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Writer"><a class="viewcode-back" href="../../index.html#proio.Writer">[docs]</a><span class="k">class</span> <span class="nc">Writer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Writer for proio files</span>
+<span class="sd">    </span>
+<span class="sd">    This class can be used with the `with` statement.  A filename may be</span>
+<span class="sd">    omitted in favor of specifying `fileobj`.</span>
+
+<span class="sd">    :param string filename: name of output file to create or overwrite</span>
+<span class="sd">    :param fileobj: file object to write to</span>
+
+<span class="sd">    :example:</span>
+<span class="sd">    </span>
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        with proio.Writer(&#39;output.proio&#39;) as writer:</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fileobj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fileobj</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span> <span class="o">=</span> <span class="n">fileobj</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_close_file</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bucket_dump_size</span> <span class="o">=</span> <span class="mh">0x1000000</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_compression</span><span class="p">(</span><span class="n">proto</span><span class="o">.</span><span class="n">BucketHeader</span><span class="o">.</span><span class="n">LZ4</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Writer.close"><a class="viewcode-back" href="../../index.html#proio.Writer.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        closes the file object assigned to the Writer.  This is automatically</span>
+<span class="sd">        called at the end of a `with` statement.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close_file</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Writer.flush"><a class="viewcode-back" href="../../index.html#proio.Writer.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        flushes all buffered data to the output file object.  This is</span>
+<span class="sd">        automatically called at the end of a `with` statement.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comp</span> <span class="o">==</span> <span class="n">proto</span><span class="o">.</span><span class="n">BucketHeader</span><span class="o">.</span><span class="n">LZ4</span><span class="p">:</span>
+            <span class="n">bucket_bytes</span> <span class="o">=</span> <span class="n">lz4</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comp</span> <span class="o">==</span> <span class="n">proto</span><span class="o">.</span><span class="n">BucketHeader</span><span class="o">.</span><span class="n">GZIP</span><span class="p">:</span>
+            <span class="n">bucket_compressed</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span> <span class="o">=</span> <span class="n">bucket_compressed</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+            <span class="n">bucket_bytes</span> <span class="o">=</span> <span class="n">bucket_compressed</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bucket_bytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">header</span> <span class="o">=</span> <span class="n">proto</span><span class="o">.</span><span class="n">BucketHeader</span><span class="p">()</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">nEvents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">bucketSize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bucket_bytes</span><span class="p">)</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">compression</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_comp</span>
+        <span class="n">header_buf</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+
+        <span class="n">header_size</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">header_buf</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">magic_byte</span> <span class="ow">in</span> <span class="n">magic_bytes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">magic_byte</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_buf</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bucket_bytes</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="Writer.set_compression"><a class="viewcode-back" href="../../index.html#proio.Writer.set_compression">[docs]</a>    <span class="k">def</span> <span class="nf">set_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        sets the compression type to use for future output buckets.</span>
+
+<span class="sd">        :param comp: can be one of :attr:`proio.LZ4`, :attr:`proio.GZIP`, or</span>
+<span class="sd">            :attr:`proio.UNCOMPRESSED`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_comp</span> <span class="o">=</span> <span class="n">comp</span></div>
+
+<div class="viewcode-block" id="Writer.push"><a class="viewcode-back" href="../../index.html#proio.Writer.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        takes an event and serializes it into the output bucket.</span>
+
+<span class="sd">        :param Event event: event to serialize to output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">_flush_cache</span><span class="p">()</span>
+        <span class="n">proto_buf</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">_proto</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+
+        <span class="n">proto_size</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">proto_buf</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">proto_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">proto_buf</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">bucket_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">bucket_length</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket_dump_size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, The proio Authors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
