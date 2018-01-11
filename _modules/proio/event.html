@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>proio.event &#8212; py-proio 0.3.3 documentation</title>
+    <title>proio.event &#8212; py-proio 0.3.5 documentation</title>
     <link rel="stylesheet" href="../../_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.3',
+        VERSION:     '0.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -26,7 +26,7 @@
   </head>
   <body>
       <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
-          <span>py-proio 0.3.3 documentation</span></a></h1>
+          <span>py-proio 0.3.5 documentation</span></a></h1>
         <h2 class="heading"><span>proio.event</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -185,12 +185,13 @@
 
         <span class="n">tags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
-            <span class="n">print_string</span> <span class="o">+=</span> <span class="s1">&#39;Tag: &#39;</span> <span class="o">+</span> <span class="n">tag</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">print_string</span> <span class="o">+=</span> <span class="s1">&#39;---------- TAG: &#39;</span> <span class="o">+</span> <span class="n">tag</span> <span class="o">+</span> <span class="s1">&#39; ----------</span><span class="se">\n</span><span class="s1">&#39;</span>
             <span class="n">entries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagged_entries</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">entry_id</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
-                <span class="n">print_string</span> <span class="o">+=</span> <span class="s1">&#39;ID:</span><span class="si">%i</span><span class="s1"> &#39;</span> <span class="o">%</span> <span class="n">entry_id</span>
+                <span class="n">print_string</span> <span class="o">+=</span> <span class="s1">&#39;ID: </span><span class="si">%i</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">entry_id</span>
                 <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_entry</span><span class="p">(</span><span class="n">entry_id</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">entry</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">print_string</span> <span class="o">+=</span> <span class="s1">&#39;Entry type: &#39;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="n">DESCRIPTOR</span><span class="o">.</span><span class="n">full_name</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
                     <span class="n">print_string</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">entry</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">print_string</span> <span class="o">+=</span> <span class="s1">&#39;not found&#39;</span>
