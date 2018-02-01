@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>proio.reader &#8212; py-proio 0.3.8 documentation</title>
+    <title>proio.reader &#8212; py-proio 0.3.9 documentation</title>
     <link rel="stylesheet" href="../../_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.8',
+        VERSION:     '0.3.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -26,7 +26,7 @@
   </head>
   <body>
       <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
-          <span>py-proio 0.3.8 documentation</span></a></h1>
+          <span>py-proio 0.3.9 documentation</span></a></h1>
         <h2 class="heading"><span>proio.reader</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -44,6 +44,7 @@
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">lz4.frame</span>
 <span class="kn">import</span> <span class="nn">struct</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">from</span> <span class="nn">.event</span> <span class="k">import</span> <span class="n">Event</span>
 <span class="kn">import</span> <span class="nn">proio.proto</span> <span class="k">as</span> <span class="nn">proto</span>
@@ -104,6 +105,17 @@
 <span class="sd">        :rtype: Event</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_from_bucket</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reader.next_header"><a class="viewcode-back" href="../../index.html#proio.Reader.next_header">[docs]</a>    <span class="k">def</span> <span class="nf">next_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        returns the next event header.  This is useful for scanning the</span>
+<span class="sd">        stream/file.</span>
+
+<span class="sd">        :return: the next event header</span>
+<span class="sd">        :rtype: Event</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read_bucket</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_header</span></div>
 
 <div class="viewcode-block" id="Reader.skip"><a class="viewcode-back" href="../../index.html#proio.Reader.skip">[docs]</a>    <span class="k">def</span> <span class="nf">skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_events</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -167,6 +179,7 @@
     <span class="k">def</span> <span class="nf">_read_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_skip_events</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_evts_read</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">events_skipped</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_header</span> <span class="o">=</span> <span class="kc">None</span>
         
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_to_magic</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">magic_bytes</span><span class="p">):</span>
