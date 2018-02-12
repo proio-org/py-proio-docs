@@ -4,29 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>proio.writer &#8212; py-proio 0.4.1 documentation</title>
+    <title>proio.writer &#8212; py-proio 0.4.2 documentation</title>
     <link rel="stylesheet" href="../../_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.4.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-  </head>
-  <body>
+  </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
-          <span>py-proio 0.4.1 documentation</span></a></h1>
+          <span>py-proio 0.4.2 documentation</span></a></h1>
         <h2 class="heading"><span>proio.writer</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -114,8 +105,8 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close_file</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span></div>
+        <span class="k">except</span><span class="p">:</span></div>
+            <span class="k">pass</span>
 
 <div class="viewcode-block" id="Writer.flush"><a class="viewcode-back" href="../../index.html#proio.Writer.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -151,8 +142,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_buf</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bucket_bytes</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">=</span> <span class="mi">0</span></div>
+</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">=</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="Writer.set_compression"><a class="viewcode-back" href="../../index.html#proio.Writer.set_compression">[docs]</a>    <span class="k">def</span> <span class="nf">set_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -160,8 +151,8 @@
 
 <span class="sd">        :param comp: can be one of :attr:`proio.LZ4`, :attr:`proio.GZIP`, or</span>
 <span class="sd">            :attr:`proio.UNCOMPRESSED`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_comp</span> <span class="o">=</span> <span class="n">comp</span></div>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_comp</span> <span class="o">=</span> <span class="n">comp</span>
 
 <div class="viewcode-block" id="Writer.push"><a class="viewcode-back" href="../../index.html#proio.Writer.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -180,8 +171,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="n">bucket_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">bucket_length</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket_dump_size</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div></div>
+        <span class="k">if</span> <span class="n">bucket_length</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket_dump_size</span><span class="p">:</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 </pre></div>
 
       </div>
@@ -195,7 +186,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, The proio Authors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.0.
     </div>
   </body>
 </html>

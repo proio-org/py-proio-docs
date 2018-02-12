@@ -4,29 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>proio &#8212; py-proio 0.4.1 documentation</title>
+    <title>proio &#8212; py-proio 0.4.2 documentation</title>
     <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.4.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
-  </head>
-  <body>
+  </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="#">
-          <span>py-proio 0.4.1 documentation</span></a></h1>
+          <span>py-proio 0.4.2 documentation</span></a></h1>
         <h2 class="heading"><span>proio</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -50,7 +41,7 @@
 <dl class="method">
 <dt id="proio.Event.add_entries">
 <code class="descname">add_entries</code><span class="sig-paren">(</span><em>tag</em>, <em>*entries</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.add_entries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.add_entries" title="Permalink to this definition">¶</a></dt>
-<dd><p>is like <a class="reference internal" href="#proio.Event.add_entry" title="proio.Event.add_entry"><code class="xref py py-func docutils literal"><span class="pre">add_entry()</span></code></a>, except that it takes any number of entries,
+<dd><p>is like <a class="reference internal" href="#proio.Event.add_entry" title="proio.Event.add_entry"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_entry()</span></code></a>, except that it takes any number of entries,
 and returns a list of corresponding IDs.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -109,7 +100,7 @@ return value is an integer ID number used to reference the added entry.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">entry message object</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">google.protobuf.message.Message</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">google.protobuf.message.Message</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -189,7 +180,7 @@ omitted in favor of specifying <cite>fileobj</cite>.</p>
 </tr>
 </tbody>
 </table>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">proio</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="s1">&#39;input.proio&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">proio</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="s1">&#39;input.proio&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
         <span class="o">...</span>
 </pre></div>
@@ -236,7 +227,7 @@ stream/file.</p>
 <dt id="proio.Reader.seek_to_start">
 <code class="descname">seek_to_start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/reader.html#Reader.seek_to_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Reader.seek_to_start" title="Permalink to this definition">¶</a></dt>
 <dd><p>seeks, if possible, to the start of the input file object.  This can be
-used along with <a class="reference internal" href="#proio.Reader.skip" title="proio.Reader.skip"><code class="xref py py-func docutils literal"><span class="pre">skip()</span></code></a> to directly access events.</p>
+used along with <a class="reference internal" href="#proio.Reader.skip" title="proio.Reader.skip"><code class="xref py py-func docutils literal notranslate"><span class="pre">skip()</span></code></a> to directly access events.</p>
 </dd></dl>
 
 <dl class="method">
@@ -279,7 +270,7 @@ omitted in favor of specifying <cite>fileobj</cite>.</p>
 </tr>
 </tbody>
 </table>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">proio</span><span class="o">.</span><span class="n">Writer</span><span class="p">(</span><span class="s1">&#39;output.proio&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">proio</span><span class="o">.</span><span class="n">Writer</span><span class="p">(</span><span class="s1">&#39;output.proio&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
     <span class="o">...</span>
 </pre></div>
 </div>
@@ -319,8 +310,8 @@ automatically called at the end of a <cite>with</cite> statement.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comp</strong> – can be one of <code class="xref py py-attr docutils literal"><span class="pre">proio.LZ4</span></code>, <code class="xref py py-attr docutils literal"><span class="pre">proio.GZIP</span></code>, or
-<code class="xref py py-attr docutils literal"><span class="pre">proio.UNCOMPRESSED</span></code></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comp</strong> – can be one of <code class="xref py py-attr docutils literal notranslate"><span class="pre">proio.LZ4</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">proio.GZIP</span></code>, or
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">proio.UNCOMPRESSED</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -350,7 +341,7 @@ automatically called at the end of a <cite>with</cite> statement.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, The proio Authors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.0.
     </div>
   </body>
 </html>
