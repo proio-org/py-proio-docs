@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>proio &#8212; py-proio 0.6.1 documentation</title>
+    <title>proio &#8212; py-proio 0.7.0 documentation</title>
     <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
@@ -17,7 +17,7 @@
     <link rel="search" title="Search" href="search.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="#">
-          <span>py-proio 0.6.1 documentation</span></a></h1>
+          <span>py-proio 0.7.0 documentation</span></a></h1>
         <h2 class="heading"><span>proio</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -89,6 +89,52 @@ return value is an integer ID number used to reference the added entry.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="proio.Event.all_entries">
+<code class="descname">all_entries</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.all_entries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.all_entries" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a list of entry IDs for the event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">identifiers for entries</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.delete_tag">
+<code class="descname">delete_tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.delete_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.delete_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>removes the tag that matches the given tag string from the event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<em>string</em>) – tag</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.entry_tags">
+<code class="descname">entry_tags</code><span class="sig-paren">(</span><em>ID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.entry_tags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.entry_tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a list of tags that point to a given entry ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ID</strong> (<em>int</em>) – identifier for entry</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="proio.Event.get_entry">
 <code class="descname">get_entry</code><span class="sig-paren">(</span><em>ID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.get_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.get_entry" title="Permalink to this definition">¶</a></dt>
 <dd><p>takes an entry ID and returns the corresponding entry.</p>
@@ -101,6 +147,20 @@ return value is an integer ID number used to reference the added entry.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">entry message object</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">google.protobuf.message.Message</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.remove_entry">
+<code class="descname">remove_entry</code><span class="sig-paren">(</span><em>ID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.remove_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.remove_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>removes an entry from the event by its entry ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ID</strong> (<em>int</em>) – identifier for entry</td>
 </tr>
 </tbody>
 </table>
@@ -152,6 +212,24 @@ references.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="proio.Event.untag_entry">
+<code class="descname">untag_entry</code><span class="sig-paren">(</span><em>ID</em>, <em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/proio/event.html#Event.untag_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#proio.Event.untag_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>removes the specified tag from the entry ID</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ID</strong> (<em>int</em>) – identifier for entry</li>
+<li><strong>tag</strong> (<em>string</em>) – tag</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
