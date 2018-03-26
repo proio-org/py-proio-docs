@@ -87,8 +87,8 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close_file</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_stream_reader</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span></div>
-            <span class="k">pass</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Reader.next"><a class="viewcode-back" href="../../index.html#proio.Reader.next">[docs]</a>    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -97,8 +97,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_from_bucket</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">event</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">StopIteration</span></div>
-        <span class="k">return</span> <span class="n">event</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+        <span class="k">return</span> <span class="n">event</span></div>
 
 <div class="viewcode-block" id="Reader.next_header"><a class="viewcode-back" href="../../index.html#proio.Reader.next_header">[docs]</a>    <span class="k">def</span> <span class="nf">next_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -108,8 +108,8 @@
 <span class="sd">        :return: the next event header</span>
 <span class="sd">        :rtype: Event</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_read_bucket</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read_bucket</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_header</span></div>
 
 <div class="viewcode-block" id="Reader.skip"><a class="viewcode-back" href="../../index.html#proio.Reader.skip">[docs]</a>    <span class="k">def</span> <span class="nf">skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_events</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -138,8 +138,8 @@
                 <span class="n">n_skipped</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
-</div>
-        <span class="k">return</span> <span class="n">n_skipped</span>
+
+        <span class="k">return</span> <span class="n">n_skipped</span></div>
 
 <div class="viewcode-block" id="Reader.seek_to_start"><a class="viewcode-back" href="../../index.html#proio.Reader.seek_to_start">[docs]</a>    <span class="k">def</span> <span class="nf">seek_to_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -147,8 +147,8 @@
 <span class="sd">        used along with :func:`skip` to directly access events.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream_reader</span><span class="o">.</span><span class="n">seekable</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_stream_reader</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_reader</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stream_reader</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_reader</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_read_from_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">do_unmarshal</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="n">proto_size_buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
@@ -239,8 +239,8 @@
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="p">()</span></div>
 </pre></div>
 
       </div>
@@ -254,7 +254,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, The proio Authors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

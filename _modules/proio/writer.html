@@ -105,8 +105,8 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close_file</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span></div>
-            <span class="k">pass</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Writer.flush"><a class="viewcode-back" href="../../index.html#proio.Writer.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -142,8 +142,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header_buf</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bucket_bytes</span><span class="p">)</span>
-</div>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">=</span> <span class="mi">0</span></div>
 
 <div class="viewcode-block" id="Writer.set_compression"><a class="viewcode-back" href="../../index.html#proio.Writer.set_compression">[docs]</a>    <span class="k">def</span> <span class="nf">set_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -151,8 +151,8 @@
 
 <span class="sd">        :param comp: can be one of :attr:`proio.LZ4`, :attr:`proio.GZIP`, or</span>
 <span class="sd">            :attr:`proio.UNCOMPRESSED`</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_comp</span> <span class="o">=</span> <span class="n">comp</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_comp</span> <span class="o">=</span> <span class="n">comp</span></div>
 
 <div class="viewcode-block" id="Writer.push"><a class="viewcode-back" href="../../index.html#proio.Writer.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -171,8 +171,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_events</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="n">bucket_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bucket</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">bucket_length</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket_dump_size</span><span class="p">:</span></div></div>
-            <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">bucket_length</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket_dump_size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div></div>
 </pre></div>
 
       </div>
@@ -186,7 +186,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, The proio Authors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>
