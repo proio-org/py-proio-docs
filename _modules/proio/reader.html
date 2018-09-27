@@ -191,7 +191,12 @@
 
         <span class="c1"># add descriptors to pool</span>
         <span class="k">for</span> <span class="n">fd_bytes</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_header</span><span class="o">.</span><span class="n">fileDescriptor</span><span class="p">:</span>
-            <span class="n">descriptor_pool</span><span class="o">.</span><span class="n">Default</span><span class="p">()</span><span class="o">.</span><span class="n">AddSerializedFile</span><span class="p">(</span><span class="n">fd_bytes</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">descriptor_pool</span><span class="o">.</span><span class="n">Default</span><span class="p">()</span><span class="o">.</span><span class="n">AddSerializedFile</span><span class="p">(</span><span class="n">fd_bytes</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="c1"># ignore cases where types were already defined by another</span>
+                <span class="c1"># FileDescriptorProto</span>
+                <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">_read_bucket</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">bucket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream_reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bucket_header</span><span class="o">.</span><span class="n">bucketSize</span><span class="p">)</span>
