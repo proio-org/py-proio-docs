@@ -47,7 +47,7 @@
 <div class="viewcode-block" id="Reader"><a class="viewcode-back" href="../../index.html#proio.Reader">[docs]</a><span class="k">class</span> <span class="nc">Reader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reader for proio files</span>
-<span class="sd">    </span>
+
 <span class="sd">    This class can be used with the `with` statement, and it also may be used</span>
 <span class="sd">    as an iterator that sequentially iterates all events.  A filename may be</span>
 <span class="sd">    omitted in favor of specifying `fileobj`.</span>
@@ -118,7 +118,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close_file</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_stream_reader</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Reader.skip"><a class="viewcode-back" href="../../index.html#proio.Reader.skip">[docs]</a>    <span class="k">def</span> <span class="nf">skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_events</span><span class="p">):</span>
